@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6effb">
+<meta name="description" content="FK Music — beautiful mobile music player">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<title>FK Music</title>
+</head>
+<body>
+<div class="app-shell">
+  <header class="app-header">
+    <button class="header-icon" id="backBtn" aria-label="Back">⌄</button>
+    <div class="header-title">Now Playing</div>
+    <button class="header-icon" id="themeBtn" aria-label="Toggle theme">☾</button>
+  </header>
+
+  <main>
+    <section class="now-playing" id="homeSection">
+      <div class="track-head">
+        <h1 id="title">No song selected</h1>
+        <p id="artist">Choose a song from your library</p>
+        <p id="album" class="album-line">Unknown Album</p>
+      </div>
+
+      <div class="cover-stage">
+        <div class="progress-ring" id="progressRing">
+          <div class="cover" id="cover"><span>♫</span></div>
+        </div>
+        <div class="time-label"><span id="currentTime">0:00</span><span>/</span><span id="duration">0:00</span></div>
+      </div>
+
+      <audio id="audio" preload="metadata"></audio>
+
+      <div class="quick-actions">
+        <button class="round-action" id="sleepBtn" aria-label="Sleep timer">◷</button>
+        <button class="round-action" id="equalizerBtn" aria-label="Equalizer">☷</button>
+        <button class="speed-action" id="speedBtn" aria-label="Playback speed">1.0x</button>
+        <button class="round-action" id="favoriteNowBtn" aria-label="Favorite">♡</button>
+      </div>
+
+      <div class="transport">
+        <button class="transport-btn" id="back10Btn" aria-label="Back 10 seconds">↶<small>10</small></button>
+        <button class="transport-btn" id="prevBtn" aria-label="Previous">◀|</button>
+        <button class="main-play" id="playBtn" aria-label="Play">▶</button>
+        <button class="transport-btn" id="nextBtn" aria-label="Next">|▶</button>
+        <button class="transport-btn" id="forward10Btn" aria-label="Forward 10 seconds">↷<small>10</small></button>
+      </div>
+
+      <div class="secondary-actions">
+        <button id="repeatBtn" aria-label="Repeat">⟳</button>
+        <button id="shuffleBtn" aria-label="Shuffle">☷</button>
+        <button id="installBtn" aria-label="Install app" hidden>＋</button>
+      </div>
+    </section>
+
+    <section class="library-page" id="audioSection">
+      <div class="page-title-row">
+        <div><p class="eyebrow">YOUR LIBRARY</p><h2>Audio</h2></div>
+        <label class="add-btn">＋ Add Music<input id="fileInput" type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac,.opus" multiple hidden></label>
+      </div>
+      <div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search songs, artists or albums..." aria-label="Search songs"></div>
+      <div id="songList" class="song-list"></div>
+      <p id="emptyState" class="empty">No songs yet. Tap “Add Music” to choose audio files.</p>
+    </section>
+
+    <section class="me-page" id="meSection">
+      <div class="pro-card">
+        <div><p class="eyebrow">FK MUSIC</p><h2>Enjoy All Benefits</h2><p>Enjoy your music with a clean player, playlists and favorites.</p></div>
+        <button class="upgrade-btn">Upgrade Pro</button>
+      </div>
+      <div class="settings-card">
+        <button><span>◫</span>Equalizer<i>›</i></button>
+        <button><span>◎</span>Language<i>›</i></button>
+        <button id="themeRow"><span>◌</span>Themes<i>›</i></button>
+        <button id="sleepRow"><span>◷</span>Sleep Timer<i>›</i></button>
+        <button><span>▣</span>Drive Mode<i>›</i></button>
+      </div>
+      <div class="settings-card">
+        <button><span>♡</span>Feedback<i>›</i></button>
+        <button><span>☆</span>Rate Us<i>›</i></button>
+        <button><span>♢</span>Privacy Policy<i>›</i></button>
+      </div>
+      <div class="settings-card">
+        <button><span>□</span>More Apps<i>›</i></button>
+        <button><span>ⓘ</span>Version<strong>4.0.0</strong></button>
+      </div>
+
+      <div class="workspace-grid">
+        <section class="panel" id="favoritesSection"><div class="section-heading"><div><p class="eyebrow">YOUR LIKES</p><h2>♥ Favorites</h2></div></div><div id="favoriteList" class="mini-list"></div><p id="favoriteEmpty" class="empty small">Favorite songs will appear here.</p></section>
+        <section class="panel" id="playlistSection"><div class="section-heading"><div><p class="eyebrow">YOUR MIXES</p><h2>☷ Playlists</h2></div><button id="newPlaylistBtn" class="small-btn">＋ New</button></div><div id="playlistList" class="playlist-list"></div><p id="playlistEmpty" class="empty small">Create your first playlist.</p></section>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button class="nav-item active" data-target="homeSection"><span>⌂</span><small>Home</small></button>
+    <button class="nav-item" data-target="audioSection"><span>♫</span><small>Audio</small></button>
+    <button class="nav-item" data-target="meSection"><span>●</span><small>Me</small></button>
+  </nav>
+</div>
+
+<dialog id="playlistDialog" class="dialog"><form method="dialog" id="playlistForm"><h3>Create playlist</h3><p>Give your new playlist a name.</p><input id="playlistName" maxlength="40" placeholder="Workout Mix" required><div class="dialog-actions"><button type="button" id="cancelPlaylist" class="secondary-btn">Cancel</button><button type="submit" class="primary-btn">Create</button></div></form></dialog>
+<dialog id="playlistPickerDialog" class="dialog"><form method="dialog"><h3>Add to playlist</h3><div id="playlistPicker" class="picker-list"></div><div class="dialog-actions"><button type="submit" class="secondary-btn">Close</button></div></form></dialog>
+<script src="app.js"></script>
+</body>
+</html>
